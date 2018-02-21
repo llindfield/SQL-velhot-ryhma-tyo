@@ -69,6 +69,8 @@ public class Main {
         get("/smoothiet", (req, res) -> {  //smoothiesivun tulostus
             HashMap map = new HashMap<>();
             map.put("smoothiet",smoothiedao.findAll());
+            
+            map.put("raakaaineet", raakaainedao.findAll());
             return new ModelAndView(map, "smoothiet");
         }, new ThymeleafTemplateEngine());
         
@@ -80,11 +82,11 @@ public class Main {
             return "";
         });
         
-        post("/smoothiet/poistasmoothie/:id", (req,res) -> { // ei jostain syystä toimi
+        post("/smoothiet/poistasmoothie/:id", (req,res) -> { 
                 String poisto = req.queryString();
                 System.out.println(poisto);
             try {
-                smoothiedao.delete(Integer.parseInt(req.params(":id")));
+                smoothiedao.delete(1);
             } catch (SQLException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }

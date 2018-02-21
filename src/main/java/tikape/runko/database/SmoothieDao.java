@@ -66,7 +66,6 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
     public void delete(Integer key) throws SQLException {
         Connection connection = database.getConnection();
         System.out.println(key);
-        
         PreparedStatement stmt
                     = connection.prepareStatement("DELETE FROM Annos WHERE id = ?");
             stmt.setInt(1, key);
@@ -83,6 +82,7 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
 
     @Override
     public Smoothie saveOrUpdate(Smoothie smoothie) throws SQLException {
+        
          Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("INSERT INTO Annos (nimi) VALUES (?)");
         stmt.setString(1, smoothie.getNimi());
