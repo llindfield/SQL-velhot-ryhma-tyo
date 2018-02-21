@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
     <head>
-        <title>Raakaaineet</title>
+        <title>Raaka-aineet</title>
         <meta charset="utf-8" />
     </head>
 
@@ -11,13 +11,19 @@
 
         <ol>
             <li th:each="raakaaine: ${raakaaineet}">
-                <span th:text="${raakaaine.nimi}">raakaine</span> <a th:href="${'/raakaaineet/' + raakaaine.id}">linkki</a>
+                <span th:text="${raakaaine.nimi}">raakaine</span>
+                <form th:action="@{~/raakaaineet/poistaraakaaine/{id}(id=${raakaaine.id})}" method="POST">
+                    <input type="submit" value="Poista"/>
+                </form>
             </li>
         </ol>
         
-        <form action="/" method="POST">
-            <input type="text" name="raakaaine"/>
-            <input type="submit"/>
+      
+        
+        
+        <form action="/lisaaraakaaine" method="POST">
+            <input type="text" name="uusiraakaaine"/>
+            <input type="submit" value="lisää raaka-aine"/>
 </form>
     </body>
 </html>

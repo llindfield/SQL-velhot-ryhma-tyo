@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import tikape.runko.domain.Opiskelija;
 
-public class SmoothieDao implements Dao<Opiskelija, Integer> {
+public class SmoothieDao implements Dao<Smoothie, Integer> {
 
     private Database database;
 

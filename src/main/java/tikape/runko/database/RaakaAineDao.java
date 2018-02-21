@@ -6,11 +6,13 @@
 package tikape.runko.database;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import spark.Spark;
 import tikape.runko.domain.Opiskelija;
 import tikape.runko.domain.RaakaAine;
 
@@ -18,13 +20,13 @@ import tikape.runko.domain.RaakaAine;
  *
  * @author lauri
  */
-public class RaakaAineDao implements Dao<RaakaAine, Integer>{
-     private Database database;
+public class RaakaAineDao implements Dao<RaakaAine, Integer> {
 
-public RaakaAineDao(Database database) {
+    private Database database;
+
+    public RaakaAineDao(Database database) {
         this.database = database;
-}
-
+    }
 
     @Override
     public RaakaAine findOne(Integer key) throws SQLException {
@@ -74,18 +76,29 @@ public RaakaAineDao(Database database) {
 
     @Override
     public void delete(Integer key) throws SQLException {
-        // ei toteutettu
+            Connection connection = database.getConnection();
+            PreparedStatement stmt
+                    = connection.prepareStatement("DELETE FROM Raakaaine WHERE id = ?");
+            stmt.setInt(1, key);
+
+            stmt.executeUpdate();
+
+            // sulje yhteys tietokantaan
+            connection.close();
+
+            
+               
     }
-    
-     @Override
-    public RaakaAine saveOrUpdate(RaakaAine raakaaine) throws SQLException{
-    Connection connection = database.getConnection();
-    PreparedStatement stmt= connection.prepareStatement("INSERT INTO RaakaAine (nimi) VALUES (?)");
-    stmt.setString(1,raakaaine.getNimi());
-    stmt.executeUpdate();
-    connection.close();
-    return raakaaine;
-    
-}
+
+    @Override
+    public RaakaAine saveOrUpdate(RaakaAine raakaaine) throws SQLException { //toistaiseksi vain tallentaa
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("INSERT INTO RaakaAine (nimi) VALUES (?)");
+        stmt.setString(1, raakaaine.getNimi());
+        stmt.executeUpdate();
+        connection.close();
+        return raakaaine;
+
+    }
 
 }

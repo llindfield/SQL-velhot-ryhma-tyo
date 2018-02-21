@@ -19,6 +19,13 @@ public class RaakaAine {
             
    };
     
+    public RaakaAine(String nimi){
+    
+    this.nimi = nimi;
+            
+   };
+    
+    
     public Integer getId() {
         return id;
     }

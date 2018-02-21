@@ -1,12 +1,15 @@
- package tikape.runko;
+package tikape.runko;
 
+import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import spark.ModelAndView;
 import static spark.Spark.*;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import tikape.runko.database.Database;
 import tikape.runko.database.RaakaAineDao;
- import tikape.runko.domain.RaakaAine;
+import tikape.runko.domain.RaakaAine;
 
 public class Main {
 
@@ -30,18 +33,38 @@ public class Main {
             return new ModelAndView(map, "raakaaineet");
         }, new ThymeleafTemplateEngine());
 
-        get("/opiskelijat/:id", (req, res) -> {
+        get("/raakaaine/:id", (req, res) -> {
             HashMap map = new HashMap<>();
-            map.put("raakaainen", raakaainedao.findOne(Integer.parseInt(req.params("id"))));
+            map.put("raakaaine", raakaainedao.findOne(Integer.parseInt(req.params("raakaaine"))));
 
             return new ModelAndView(map, "raakaine");
         }, new ThymeleafTemplateEngine());
+
+        post("/lisaaraakaaine", (req, res) -> {  
+            String nimi = req.queryParams("uusiraakaaine");
+            RaakaAine r = new RaakaAine(nimi);
+            raakaainedao.saveOrUpdate(r);
+            res.redirect("/raakaaineet");
+            return "";
+        });
         
-        post("/raakaineet/",(req,res)-> {  //raakaaineen lisääminen vielä kesken
-            RaakaAine r = new RaakaAine();
+        post("/raakaaineet/poistaraakaaine/:id", (req,res) -> {
+                String poisto = req.queryString();
+                System.out.println(poisto);
+            try {
+                raakaainedao.delete(Integer.parseInt(req.params(":id")));
+            } catch (SQLException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            res.redirect("/raakaaineet");
+        return "";});
             
-            
-        }
+      
+    
+       
+        
+        
+
     }
-            
+
 }
