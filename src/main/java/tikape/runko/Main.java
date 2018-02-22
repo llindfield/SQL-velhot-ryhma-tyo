@@ -25,8 +25,6 @@ public class Main {
         get("/", (req, res) -> {  //pääsivun tulostus
             HashMap map = new HashMap<>();
             map.put("viesti", "Tervetuloa smoothieitten jännittävän maailmaan");
-            
-            
 
             return new ModelAndView(map, "index");
         }, new ThymeleafTemplateEngine());
@@ -37,62 +35,80 @@ public class Main {
 
             return new ModelAndView(map, "raakaaineet");
         }, new ThymeleafTemplateEngine());
-            
+
         get("/raakaaine/:id", (req, res) -> {
             HashMap map = new HashMap<>();
             map.put("raakaaine", raakaainedao.findOne(Integer.parseInt(req.params("raakaaine"))));
 
             return new ModelAndView(map, "raakaine");
         }, new ThymeleafTemplateEngine());
-                                            
-        post("/lisaaraakaaine", (req, res) -> {  
+
+        post("/lisaaraakaaine", (req, res) -> {
             String nimi = req.queryParams("uusiraakaaine");
             RaakaAine r = new RaakaAine(nimi);
             raakaainedao.saveOrUpdate(r);
             res.redirect("/raakaaineet");
             return "";
         });
-        
-     
-        
-        post("/raakaaineet/poistaraakaaine/:id", (req,res) -> {
-                String poisto = req.queryString();
-                System.out.println(poisto);
+
+        post("/raakaaineet/poistaraakaaine/:id", (req, res) -> {
+            String poisto = req.queryString();
+            System.out.println(poisto);
             try {
                 raakaainedao.delete(Integer.parseInt(req.params(":id")));
             } catch (SQLException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
             res.redirect("/raakaaineet");
-        return "";});
-        
+            return "";
+        });
+
         get("/smoothiet", (req, res) -> {  //smoothiesivun tulostus
             HashMap map = new HashMap<>();
-            map.put("smoothiet",smoothiedao.findAll());
-            
+            map.put("smoothiet", smoothiedao.findAll());
+
             map.put("raakaaineet", raakaainedao.findAll());
             return new ModelAndView(map, "smoothiet");
         }, new ThymeleafTemplateEngine());
-        
-        post("/lisaasmoothie", (req, res) -> {  
-            String nimi = req.queryParams("smoothiennimi");
+
+        post("/lisaasmoothie", (req, res) -> {
+            String nimi = req.params("smoothiennimi");
             Smoothie s = new Smoothie(nimi);
             smoothiedao.saveOrUpdate(s);
             res.redirect("/smoothiet");
             return "";
         });
-        
-        post("/smoothiet/poistasmoothie/:id", (req,res) -> { 
-                String poisto = req.queryString();
-                System.out.println(poisto);
+
+        post("/smoothiet/poistasmoothie/:id", (req, res) -> {
+            String poisto = req.queryString();
+            System.out.println(req.params(":id"));
             try {
-                smoothiedao.delete(1);
+                smoothiedao.delete(Integer.parseInt(req.params(":id")));
             } catch (SQLException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             res.redirect("/smoothiet");
-        return "";});
+            return "";
+        });
+
+        post("/smoothiet/lisaaraakaine", (req,res) -> {
+        String smoothiennimi = req.params("smoothiennimi");
+        Smoothie smoothie = new Smoothie(smoothiennimi); //tallentaa smoothien ja saa sen mahdollisen tallennetun sisällön
+        smoothie  = smoothiedao.save(smoothie);
+        RaakaAine raakaaine =  new RaakaAine (Integer.parseInt(req.params("raakaAine.id")),req.params("raakaAine.nimi"));
+        Integer jarjestys = Integer.parseInt(req.params("jarjestys"));
+        String ohje = req.params("ohje");
+        String maara = req.params("maara");
+        res.redirect("/smoothiet");
+        smoothie.raakaAineJarjestys.put(raakaaine, jarjestys);
+        smoothie.raakaAineMaara.put(raakaaine, maara);
+        smoothie.setOhje(ohje);
+        smoothiedao.save(smoothie);
+        return""; 
+    });
+        
+       
             
             
 
