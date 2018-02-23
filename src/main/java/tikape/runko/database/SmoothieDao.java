@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import tikape.runko.domain.Opiskelija;
 import tikape.runko.domain.Smoothie;
 public class SmoothieDao implements Dao<Smoothie, Integer> {
 
@@ -140,11 +139,12 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
         stmt.setString(1, smoothie.getNimi());
         stmt.executeUpdate();
         stmt.close();
-        connection.close();
-        PreparedStatement stmt2 = connection.prepareStatement("SELECT id FROM Annos WHERE NIMI=?");
         
+        
+        PreparedStatement stmt2 = connection.prepareStatement("SELECT id FROM Annos WHERE NIMI=?");
         stmt2.setString(1, smoothie.getNimi());
-        ResultSet rs2 = stmt2.executeQuery();Integer id = rs2.getInt("id");
+        ResultSet rs2 = stmt2.executeQuery();
+        Integer id = rs2.getInt("id");
         smoothie.setId(id);
         connection.close();
         return smoothie;
