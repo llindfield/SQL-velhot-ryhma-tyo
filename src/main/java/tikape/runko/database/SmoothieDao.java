@@ -141,13 +141,12 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
         stmt.executeUpdate();
         stmt.close();
         connection.close();
-        /*reparedStatement stmt2 = connection.prepareStatement("SELECT id FROM Annos WHERE NIMI=?");
+        PreparedStatement stmt2 = connection.prepareStatement("SELECT id FROM Annos WHERE NIMI=?");
         
         stmt2.setString(1, smoothie.getNimi());
-        ResultSet rs2 = stmt2.executeQuery();
-//        Integer id = rs2.getInt("id");
-       // smoothie.setId(id);
-        connection.close();*/
+        ResultSet rs2 = stmt2.executeQuery();Integer id = rs2.getInt("id");
+        smoothie.setId(id);
+        connection.close();
         return smoothie;
     
     }

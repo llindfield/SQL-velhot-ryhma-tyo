@@ -12,7 +12,7 @@
 
         <ol>
             <li th:each="smoothie: ${smoothiet}">
-                <span th:text="${smoothie.nimi}">smoothiennimi</span><a th:href="${'/smoothiensivu/' + smoothie.id}">smoothien ainesosat</a>
+                <span th:text="${smoothie.nimi}">smoothiennimi</span><br/> <a th:href="${'/smoothiensivu/' + smoothie.id}">smoothien ainesosat</a>
                 <form th:action="@{~/smoothiet/poistasmoothie/{id}(id=${smoothie.id})}" method="POST">
                     <input type="submit" value="Poista"/>
                 </form>

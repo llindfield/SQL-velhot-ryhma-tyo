@@ -21,7 +21,7 @@ public class Main {
 
         RaakaAineDao raakaainedao = new RaakaAineDao(database);
         SmoothieDao smoothiedao = new SmoothieDao(database);
-
+        System.out.println(smoothiedao.findOne(1).getNimi());
         get("/", (req, res) -> {  //pääsivun tulostus
             HashMap map = new HashMap<>();
             map.put("viesti", "Tervetuloa smoothieitten jännittävän maailmaan");
@@ -74,9 +74,9 @@ public class Main {
          get("/smoothiensivu/:id", (req, res) -> {
             HashMap map = new HashMap<>();
             System.out.println(smoothiedao.findOne(Integer.parseInt(req.params(":id"))).getNimi());
-            map.put("smoothie", smoothiedao.findOne(Integer.parseInt(req.params(":id"))));
+            map.put("juoma", smoothiedao.findOne(Integer.parseInt(req.params(":id"))));
 
-            return new ModelAndView(map, "yksismoothie");
+            return new ModelAndView(map, "smoothie");
         }, new ThymeleafTemplateEngine());
 
 
