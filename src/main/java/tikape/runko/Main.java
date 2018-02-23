@@ -70,11 +70,21 @@ public class Main {
             map.put("raakaaineet", raakaainedao.findAll());
             return new ModelAndView(map, "smoothiet");
         }, new ThymeleafTemplateEngine());
+        
+         get("/smoothiensivu/:id", (req, res) -> {
+            HashMap map = new HashMap<>();
+            System.out.println(smoothiedao.findOne(Integer.parseInt(req.params(":id"))).getNimi());
+            map.put("smoothie", smoothiedao.findOne(Integer.parseInt(req.params(":id"))));
+
+            return new ModelAndView(map, "yksismoothie");
+        }, new ThymeleafTemplateEngine());
+
 
         post("/lisaasmoothie", (req, res) -> {
-            String nimi = req.params("smoothiennimi");
+            String nimi = req.queryParams("smoothiennimi");
             Smoothie s = new Smoothie(nimi);
-            smoothiedao.saveOrUpdate(s);
+           smoothiedao.save(s);
+            
             res.redirect("/smoothiet");
             return "";
         });
@@ -92,10 +102,10 @@ public class Main {
             return "";
         });
 
-        post("/smoothiet/lisaaraakaine", (req,res) -> {
+        post("/smoothiet/lisaaraakaine", (req,res) -> {//ei vielä tee mitään
         String smoothiennimi = req.params("smoothiennimi");
-        Smoothie smoothie = new Smoothie(smoothiennimi); //tallentaa smoothien ja saa sen mahdollisen tallennetun sisällön
-        smoothie  = smoothiedao.save(smoothie);
+        Smoothie smoothie = smoothiedao.findOne(smoothiennimi); //hakee 
+ 
         RaakaAine raakaaine =  new RaakaAine (Integer.parseInt(req.params("raakaAine.id")),req.params("raakaAine.nimi"));
         Integer jarjestys = Integer.parseInt(req.params("jarjestys"));
         String ohje = req.params("ohje");

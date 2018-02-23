@@ -5,7 +5,9 @@
  */
 package tikape.runko.domain;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -16,9 +18,10 @@ public class Smoothie {
     private Integer id;
     private String nimi;
     private String ohje;
-    HashMap<RaakaAine, Integer> raakaAineJarjestys = new HashMap(); //tallennetaan hashmappiin smoothien raaka-aineitten järjestys
-    HashMap<RaakaAine, String> raakaAineMaara = new HashMap(); //tallennetaan hashmappiin smoothien raaka-aineitten määrät
-
+    
+    public HashMap<RaakaAine, Integer> raakaAineJarjestys = new HashMap(); //tallennetaan hashmappiin smoothien raaka-aineitten järjestys
+    public HashMap<RaakaAine, String> raakaAineMaara = new HashMap(); //tallennetaan hashmappiin smoothien raaka-aineitten määrät
+    public List<RaakaAine> raakaaineet = new ArrayList();
     public Smoothie(String nimi) {
 
         this.nimi = nimi;
@@ -32,6 +35,8 @@ public class Smoothie {
         this.nimi = nimi;
 
     }
+     
+    
 
     ;
     
@@ -63,6 +68,9 @@ public class Smoothie {
         this.ohje = ohje;
 
     }
-
+    
+    
+    
+    
     // raakaAineJarjestys ja raakaAineMaara toteuttamatta
 }

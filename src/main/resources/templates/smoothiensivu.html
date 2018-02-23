@@ -10,8 +10,8 @@
         <h1>Smoothieitten raaka-aineet</h1>
 
         <ol>
-            <li th:each="opiskelija: ${opiskelijat}">
-                <span th:text="${opiskelija.nimi}">opiskelijan nimi</span> <a th:href="${'/opiskelijat/' + opiskelija.id}">linkki</a>
+            <li th:each="smoothie: ${yksismoothie}">
+                <span th:text="${smoothie.nimi}">smoothien nimi</span> 
             </li>
         </ol>
     </body>

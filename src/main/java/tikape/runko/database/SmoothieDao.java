@@ -11,7 +11,7 @@ import tikape.runko.domain.Smoothie;
 public class SmoothieDao implements Dao<Smoothie, Integer> {
 
     private Database database;
-
+    RaakaAineDao raakaainedao = new RaakaAineDao(database);
     public SmoothieDao(Database database) {
         this.database = database;
     }
@@ -32,8 +32,47 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
         String nimi = rs.getString("nimi");
 
         Smoothie s = new Smoothie(nimi);
+        s.setId(key);
 
         rs.close();
+        stmt.close();
+        connection.close();
+
+        return s;
+    }
+    
+    public Smoothie findOne(String nimi) throws SQLException { //löytää smoothien tiedot nimen perusteella.
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Annos WHERE nimi = ?");
+        stmt.setObject(1, nimi);
+        
+        
+        ResultSet rs = stmt.executeQuery();
+        boolean hasOne = rs.next();
+        if (!hasOne) {
+            return null;
+        }  
+        Smoothie s = new Smoothie(nimi);
+        /*s.setId(rs.getInt("id"));
+        rs.close();
+        stmt = connection.prepareStatement("SELECT * FROM AnnosRaakaAine WHERE annos_id = ?");
+        while(rs.next()){
+        s.setNimi(rs.getString("nimi"));
+        s.setOhje("ohje");
+        }
+        rs.close();*/
+        
+        stmt = connection.prepareStatement("SELECT * FROM AnnosRaakaAine,Annos,RaakaAine WHERE Annos.id = AnnosRaakaAine.annos_id AND Annos.nimi = ?");
+        rs = stmt.executeQuery();
+        while(rs.next()){
+        s.setOhje(rs.getString("AnnosRaakaAine.ohje"));
+        s.setId(rs.getInt("Annos.id"));
+        
+        s.raakaAineJarjestys.put(raakaainedao.findOne(rs.getInt("RaakaAine.id")),rs.getInt("jarjestys"));
+        s.raakaAineMaara.put(raakaainedao.findOne(rs.getInt("RaakaAine.id")),rs.getString("maara"));
+        s.raakaaineet.add(raakaainedao.findOne(rs.getInt("RaakaAine.id")));
+        }
+        
         stmt.close();
         connection.close();
 
@@ -95,27 +134,26 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
         else return update(smoothie);
     }
     
-    public Smoothie save(Smoothie smoothie) throws SQLException{
-      Connection connection = database.getConnection();
-        
+    public Smoothie save(Smoothie smoothie) throws SQLException{ //lisaa smoothien nimen Annos tauluun ja palauttaa sen id:n kanssa
+        Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("INSERT INTO Annos (nimi) VALUES (?)");
         stmt.setString(1, smoothie.getNimi());
         stmt.executeUpdate();
-        stmt = connection.prepareStatement("SELECT id FROM Annos WHERE NIMI=?");
-        stmt.setString(1, smoothie.getNimi());
-        ResultSet rs = stmt.executeQuery();
-        Integer id = rs.getInt("id");
-        stmt = connection.prepareStatement("INSERT INTO AnnosRaakaAine (annos_id) VALUES (?)");
-        stmt.setInt(1, id);
-        stmt.executeUpdate();
+        stmt.close();
         connection.close();
+        /*reparedStatement stmt2 = connection.prepareStatement("SELECT id FROM Annos WHERE NIMI=?");
+        
+        stmt2.setString(1, smoothie.getNimi());
+        ResultSet rs2 = stmt2.executeQuery();
+//        Integer id = rs2.getInt("id");
+       // smoothie.setId(id);
+        connection.close();*/
         return smoothie;
     
     }
     
-    private Smoothie update(Smoothie smoothie) throws SQLException { //lisää raaka-aineen ja palauttaa koko smoothien kaikkine raaka-aineineen
-   // Connection connection = database.getConnection();
-    //PreparedStatement stmt = connection.prepareStatement("INSERT INTO A");
+    public Smoothie update(Smoothie smoothie) throws SQLException { //lisää raaka-aineen ja palauttaa koko smoothien kaikkine raaka-aineineen
+   
     if (smoothie.getId() == null) return smoothie;
     Connection connection = database.getConnection();
     PreparedStatement stmt = connection.prepareStatement("");
