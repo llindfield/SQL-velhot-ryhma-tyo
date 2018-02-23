@@ -25,7 +25,7 @@ public class Smoothie {
     public Smoothie(String nimi) {
 
         this.nimi = nimi;
-
+        
     }
 
     ;
@@ -33,6 +33,7 @@ public class Smoothie {
      public Smoothie(Integer id, String nimi) {
         this.id = id;
         this.nimi = nimi;
+        
 
     }
      

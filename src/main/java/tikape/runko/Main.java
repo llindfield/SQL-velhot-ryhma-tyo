@@ -71,10 +71,8 @@ public class Main {
         }, new ThymeleafTemplateEngine());
         
          get("/smoothiensivu/:id", (req, res) -> {
-            HashMap map = new HashMap<>();
-        
+            HashMap map = new HashMap<>();           
             map.put("juoma", smoothiedao.findOne(Integer.parseInt(req.params(":id"))));
-
             return new ModelAndView(map, "smoothiensivu");
         }, new ThymeleafTemplateEngine());
 
@@ -113,7 +111,7 @@ public class Main {
         smoothie.raakaAineJarjestys.put(raakaaine, jarjestys);
         smoothie.raakaAineMaara.put(raakaaine, maara);
         smoothie.setOhje(ohje);
-        smoothiedao.save(smoothie);
+        smoothiedao.update(smoothie);
         return""; 
     });
         

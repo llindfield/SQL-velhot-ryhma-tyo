@@ -11,7 +11,9 @@
 
         <ol>
             <li th:each="smoothie: ${juoma}">
-                <span th:text="${smoothie.nimi}">smoothien nimi</span> 
+                <span th:text="${smoothie.nimi}">smoothien nimi</span>
+                <span th:text="${smoothie.ohje}">smoothien ohje</span>
+                    
             </li>
         </ol>
     </body>

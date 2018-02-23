@@ -23,21 +23,48 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
 
         ResultSet rs = stmt.executeQuery();
         boolean hasOne = rs.next();
+        
         if (!hasOne) {
             return null;
         }
-
-        //Integer id = rs.getInt("id");
         String nimi = rs.getString("nimi");
+        stmt.close();
+        
+        
+        PreparedStatement kysely = connection.prepareStatement("select * from annosraakaaine left join raakaaine on raakaaine.id = annosraakaaine.raaka_aine_id where annosraakaaine.annos_id = ?");
+        kysely.setObject(1, key);
+        System.out.println("testi");
+        ResultSet set = kysely.executeQuery();
+        Boolean onkomitaan = set.next();
+        
+        if (!onkomitaan) {
+            Smoothie s = new Smoothie(nimi);
+            s.setId(key);
+            return s;
+        }
+        
+        
+    
+        
 
         Smoothie s = new Smoothie(nimi);
-        s.setId(key);
-
-        rs.close();
+        while(set.next()){
+        s.setOhje(set.getString("ohje"));
+        s.setId(set.getInt("Annos.id"));
+        
+        s.raakaAineJarjestys.put(raakaainedao.findOne(set.getInt("RaakaAine.id")),set.getInt("jarjestys"));
+        s.raakaAineMaara.put(raakaainedao.findOne(set.getInt("RaakaAine.id")),set.getString("maara"));
+        s.raakaaineet.add(raakaainedao.findOne(set.getInt("RaakaAine.id")));
+        }
+        
         stmt.close();
         connection.close();
 
         return s;
+        
+        
+
+        
     }
     
     public Smoothie findOne(String nimi) throws SQLException { //löytää smoothien tiedot nimen perusteella.
@@ -45,26 +72,19 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
         PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Annos WHERE nimi = ?");
         stmt.setObject(1, nimi);
         
-        
         ResultSet rs = stmt.executeQuery();
         boolean hasOne = rs.next();
         if (!hasOne) {
             return null;
         }  
         Smoothie s = new Smoothie(nimi);
-        /*s.setId(rs.getInt("id"));
-        rs.close();
-        stmt = connection.prepareStatement("SELECT * FROM AnnosRaakaAine WHERE annos_id = ?");
-        while(rs.next()){
-        s.setNimi(rs.getString("nimi"));
-        s.setOhje("ohje");
-        }
-        rs.close();*/
         
-        stmt = connection.prepareStatement("SELECT * FROM AnnosRaakaAine,Annos,RaakaAine WHERE Annos.id = AnnosRaakaAine.annos_id AND Annos.nimi = ?");
+        
+        stmt = connection.prepareStatement("SELECT * FROM AnnosRaakaAine,Annos,RaakaAine WHERE Annos.id = AnnosRaakaAine.annos_id AND RaakaAine.id = AnnosRaakaAine.raaka_aine_id AND Annos.nimi = ?");
+        stmt.setObject(1, nimi);
         rs = stmt.executeQuery();
         while(rs.next()){
-        s.setOhje(rs.getString("AnnosRaakaAine.ohje"));
+        s.setOhje(rs.getString("ohje"));
         s.setId(rs.getInt("Annos.id"));
         
         s.raakaAineJarjestys.put(raakaainedao.findOne(rs.getInt("RaakaAine.id")),rs.getInt("jarjestys"));
@@ -150,6 +170,9 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
         return smoothie;
     
     }
+    
+    
+    
     
     public Smoothie update(Smoothie smoothie) throws SQLException { //lisää raaka-aineen ja palauttaa koko smoothien kaikkine raaka-aineineen
    
