@@ -16,7 +16,7 @@ public class Database {
         return DriverManager.getConnection(databaseAddress);
     }
 
-    public void init() {
+    public void init() { //tämä varmaankin luo sen opiskelija-taulun joka kerta :)
         List<String> lauseet = sqliteLauseet();
 
         // "try with resources" sulkee resurssin automaattisesti lopuksi
@@ -35,7 +35,7 @@ public class Database {
         }
     }
 
-    private List<String> sqliteLauseet() {
+    private List<String> sqliteLauseet() { //Mikä tämä metodi on?
         ArrayList<String> lista = new ArrayList<>();
 
         // tietokantataulujen luomiseen tarvittavat komennot suoritusjärjestyksessä
@@ -45,5 +45,6 @@ public class Database {
         lista.add("INSERT INTO Opiskelija (nimi) VALUES ('Homeros');");
 
         return lista;
+        
     }
 }

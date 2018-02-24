@@ -6,13 +6,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import tikape.runko.domain.RaakaAine;
 import tikape.runko.domain.Smoothie;
 public class SmoothieDao implements Dao<Smoothie, Integer> {
 
     private Database database;
-    RaakaAineDao raakaainedao = new RaakaAineDao(database);
+    RaakaAineDao raakaainedao;
+    
     public SmoothieDao(Database database) {
         this.database = database;
+        this.raakaainedao = new RaakaAineDao(database);
     }
 
     @Override
@@ -66,6 +69,7 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
 
         
     }
+  
     
     public Smoothie findOne(String nimi) throws SQLException { //löytää smoothien tiedot nimen perusteella.
         Connection connection = database.getConnection();
@@ -161,14 +165,37 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
         stmt.close();
         
         
-        PreparedStatement stmt2 = connection.prepareStatement("SELECT id FROM Annos WHERE NIMI=?");
+        PreparedStatement stmt2 = connection.prepareStatement("SELECT DISTINCT * FROM Annos WHERE nimi=?");
         stmt2.setString(1, smoothie.getNimi());
         ResultSet rs2 = stmt2.executeQuery();
-        Integer id = rs2.getInt("id");
+        int id = rs2.getInt("id");
         smoothie.setId(id);
         connection.close();
         return smoothie;
     
+    }
+    public void lisaaRaakaAine(Smoothie s, RaakaAine r) throws SQLException{
+        Connection c = database.getConnection();
+        //etsitään raaka-aineen ja smoothien id
+        int raakaId = r.getId();
+        int annosId = s.getId();
+        
+        //etsitään muut tiedot
+        int jarjestys = s.raakaAineJarjestys.get(r.getNimi());
+        String maara = s.raakaAineMaara.get(r.getNimi());
+        String ohje = s.getOhje();
+        
+        
+        //yritetääs lisäystä
+        PreparedStatement stmt2 = c.prepareStatement("INSERT INTO AnnosRaakaAine (raakaaine_id, annos_id, jarjestys, maara, ohje) VALUES (?, ?, ?, ?, ?");
+        stmt2.setInt(1, raakaId);
+        stmt2.setInt(2, annosId);
+        stmt2.setInt(3, jarjestys);
+        stmt2.setString(4,maara);
+        stmt2.setString(5, ohje);
+        stmt2.executeUpdate();
+        
+        c.close();
     }
     
     

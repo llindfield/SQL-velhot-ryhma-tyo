@@ -15,17 +15,22 @@ import java.util.List;
  */
 public class Smoothie {
 
-    private Integer id;
+    private int id;
     private String nimi;
     private String ohje;
     
     public HashMap<RaakaAine, Integer> raakaAineJarjestys = new HashMap(); //tallennetaan hashmappiin smoothien raaka-aineitten järjestys
     public HashMap<RaakaAine, String> raakaAineMaara = new HashMap(); //tallennetaan hashmappiin smoothien raaka-aineitten määrät
     public List<RaakaAine> raakaaineet = new ArrayList();
-    public Smoothie(String nimi) {
-
+    public List<String> ohjeet;
+    
+    public Smoothie(String nimi) { //Vika on näissä kahdessa konstruktorissa, 
+        //lopulliset smoothiet tulis saada ton jälkimmäisen muotoiseksi, 
+        //joten lisäsin tällekin paikan id:lle ja ohjelle, mutta setId() ei silti tee mitään?
+        //luulen myös, että nämä hashmapit yms pitäs määritellä näissä konstruktoreissa
+        this.id = 0;
         this.nimi = nimi;
-        
+        this.ohje = "ei vielä ohjetta X, id: "+ this.getId();
     }
 
     ;
@@ -33,7 +38,8 @@ public class Smoothie {
      public Smoothie(Integer id, String nimi) {
         this.id = id;
         this.nimi = nimi;
-        
+        this.ohje = "ei vielä ohjetta";
+        this.ohjeet = new ArrayList<>();
 
     }
      
@@ -48,7 +54,8 @@ public class Smoothie {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
+        System.out.println("Asetetaan id: " +id);
         this.id = id;
     }
 
@@ -61,12 +68,15 @@ public class Smoothie {
     }
 
     public String getOhje() {
-        return ohje;
+      
+        return this.ohje;
 
     }
 
     public void setOhje(String ohje) {
-        this.ohje = ohje;
+        
+        this.ohje += "\n" + ohje;
+        
 
     }
     
