@@ -24,7 +24,7 @@
             <input type="submit" value="Lisää uusi smoothie"/>
         </form>
         
-        <form method="POST" action="@{~/smoothiet/ainesosalisatty/">
+        <form method="POST" action="@{~/smoothiet/ainesosanlisays/">
             Smoothien nimi:<br/>
             <select name="smoothie">
                 <option th:each="smoothie: ${smoothiet}"
@@ -32,7 +32,10 @@
                         th:text="${smoothie.nimi}">
 
                 </option>
+                
             </select>
+            
+            <input type="hidden" th:each="smoothie: ${smoothiet}" th:text="${smoothie.id}" />
             <br/>
             Mikä raaka-aine lisätään?<br/>
             <select name="raakaAine">
@@ -42,6 +45,7 @@
 
                 </option>
             </select><br/>
+            <div>
             Järjestys<br/>
             <input type="text" name="jarjestys"/><br/>
             Määrä<br/>
@@ -50,8 +54,8 @@
             <input type="text" name="ohje"/><br/>
             
             <input type="submit" value="Lisää"/>
-
-
+            </div>
+            
         </form>
 
 

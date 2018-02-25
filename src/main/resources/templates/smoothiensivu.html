@@ -8,13 +8,30 @@
 
     <body>
         <h1>Smoothieitten raaka-aineet</h1>
-
+       
         <ol>
-            <li th:each="smoothie: ${juoma}">
-                <span th:text="${smoothie.nimi}">smoothien nimi</span>
-                <span th:text="${smoothie.ohje}">smoothien ohje</span>
-                    
+            <li th:each="smoothiennimie: ${nimi}">
+                <span th:text="${smoothiennimi}">smoothiennimi</span><br/> 
+   
+                    <input type="submit" value="Poista"/>
+           
             </li>
+            <li th:each="raakaaine:${raakaaineet}">
+                <span><span th:text="${raakaaine}">smoothiennimi</span></span><br/>
+            </li>
+            
         </ol>
+        
+        
+          
+                
+                
+            <!--    
+                <span th:text="${smoothie.ohje}">smoothien ohje</span>
+                
+                <span th:text="${smoothie.jarjestys}">smoothien ohje</span>
+                
+                <span th:text="${smoothie.maara}">smoothien ohje</span> -->   
+
     </body>
 </html>

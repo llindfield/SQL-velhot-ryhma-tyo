@@ -24,6 +24,12 @@ public class Smoothie {
     public List<RaakaAine> raakaaineet = new ArrayList();
     public List<String> ohjeet;
     
+    
+    public Smoothie(){ //tarvitaan myös tyhjä konstruktori
+    
+    
+    };
+    
     public Smoothie(String nimi) { //Vika on näissä kahdessa konstruktorissa, 
         //lopulliset smoothiet tulis saada ton jälkimmäisen muotoiseksi, 
         //joten lisäsin tällekin paikan id:lle ja ohjelle, mutta setId() ei silti tee mitään?

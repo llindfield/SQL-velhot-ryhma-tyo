@@ -75,7 +75,10 @@ public class Main {
         
          get("/smoothiensivu/:id", (req, res) -> { 
             HashMap map = new HashMap<>();           
-            map.put("juoma", smoothiedao.findOne(Integer.parseInt(req.params(":id"))));
+            Smoothie s = new Smoothie();
+            s = smoothiedao.findOne(Integer.parseInt(req.params(":id")));
+            map.put("nimi",s.getNimi() );
+            map.put("raakaaineet", s.raakaaineet);
             return new ModelAndView(map, "smoothiensivu");
         }, new ThymeleafTemplateEngine());
 
@@ -102,10 +105,9 @@ public class Main {
             return "";
         });
 
-        post("/smoothiet/aineosalisatty", (req,res) -> {//ei vielä tee mitään
+        post("/smoothiet/aineosanlisays", (req,res) -> {
         String smoothiennimi = req.params("smoothie.nimi");
         Smoothie smoothie = smoothiedao.findOne(smoothiennimi); //hakee 
-        
         RaakaAine raakaaine =  new RaakaAine (Integer.parseInt(req.params("raakaAine.id")),req.params("raakaAine.nimi"));
         Integer jarjestys = Integer.parseInt(req.params("jarjestys"));
         String ohje = req.params("ohje");
@@ -115,7 +117,6 @@ public class Main {
         smoothie.raakaAineMaara.put(raakaaine, maara);
         smoothie.setOhje(ohje);
         smoothiedao.lisaaRaakaAine(smoothie, raakaaine);
-        smoothiedao.update(smoothie);
         res.redirect("/smoothiet");
         return""; 
     });

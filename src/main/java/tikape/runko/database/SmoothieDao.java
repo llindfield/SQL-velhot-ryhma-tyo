@@ -34,30 +34,24 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
         stmt.close();
         
         
-        PreparedStatement kysely = connection.prepareStatement("select * from annosraakaaine left join raakaaine on raakaaine.id = annosraakaaine.raaka_aine_id where annosraakaaine.annos_id = ?");
+        PreparedStatement kysely = connection.prepareStatement("SELECT * FROM AnnosRaakaAine LEFT JOIN Raakaaine ON raakaaine.id = Annosraakaaine.raaka_aine_id WHERE Annosraakaaine.annos_id = ?");
         kysely.setObject(1, key);
         System.out.println("testi");
         ResultSet set = kysely.executeQuery();
-        Boolean onkomitaan = set.next();
+        /*Boolean onkomitaan = set.next();
         
-        if (!onkomitaan) {
+        if (!onkomitaan) {   //jos smoothie
             Smoothie s = new Smoothie(nimi);
             s.setId(key);
             return s;
-        }
-        
-        
-    
-        
-
+        }*/
         Smoothie s = new Smoothie(nimi);
         while(set.next()){
         s.setOhje(set.getString("ohje"));
-        s.setId(set.getInt("Annos.id"));
-        
-        s.raakaAineJarjestys.put(raakaainedao.findOne(set.getInt("RaakaAine.id")),set.getInt("jarjestys"));
-        s.raakaAineMaara.put(raakaainedao.findOne(set.getInt("RaakaAine.id")),set.getString("maara"));
-        s.raakaaineet.add(raakaainedao.findOne(set.getInt("RaakaAine.id")));
+        s.setId(set.getInt("annos_id"));   
+        s.raakaAineJarjestys.put(raakaainedao.findOne(set.getInt("raaka_aine_id")),set.getInt("jarjestys"));
+        s.raakaAineMaara.put(raakaainedao.findOne(set.getInt("raaka_aine_id")),set.getString("maara"));
+        s.raakaaineet.add(raakaainedao.findOne(set.getInt("raaka_aine_id")));
         }
         
         stmt.close();
