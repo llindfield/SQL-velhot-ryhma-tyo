@@ -9,18 +9,25 @@
     <body>
         <h1>Smoothieitten raaka-aineet</h1>
        
-        <ol>
-            <li th:each="smoothiennimie: ${nimi}">
-                <span th:text="${smoothiennimi}">smoothiennimi</span><br/> 
-   
-                    <input type="submit" value="Poista"/>
-           
-            </li>
-            <li th:each="raakaaine:${raakaaineet}">
-                <span><span th:text="${raakaaine}">smoothiennimi</span></span><br/>
-            </li>
+        
+            <h2 th:text="${smoothie.nimi}">Smoothiennimi</h2>
+            <p th:text="${smoothie.id}">2</p>
             
-        </ol>
+            
+            <ul>
+            <li th:each="raakaaine:${raakaaineet}">
+                <span th:text="${raakaaine.nimi}">1</span>
+                </li>
+              <!--  <li th:each="maara:${maarat}">
+                <span th:text="${maara.raakaaine}">maara</span> <!--maarana hashmapin läpikäynnin yritystä. ei toimi.>
+                </li>
+                <li>
+                <span th:text="${ohjeet}">ohje</span>
+                </li-->
+                
+            </ul>   
+            <a href="~/smoothiet/">Paluu smoothiet sivulle</a>
+        
         
         
           

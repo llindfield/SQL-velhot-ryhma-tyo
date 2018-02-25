@@ -36,7 +36,6 @@ public class Smoothie {
         //luulen myös, että nämä hashmapit yms pitäs määritellä näissä konstruktoreissa
         this.id = 0;
         this.nimi = nimi;
-        this.ohje = "ei vielä ohjetta X, id: "+ this.getId();
     }
 
     ;

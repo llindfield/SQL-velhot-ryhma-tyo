@@ -77,8 +77,12 @@ public class Main {
             HashMap map = new HashMap<>();           
             Smoothie s = new Smoothie();
             s = smoothiedao.findOne(Integer.parseInt(req.params(":id")));
-            map.put("nimi",s.getNimi() );
+            System.out.println(s.getNimi());
+            map.put("smoothie",s);
             map.put("raakaaineet", s.raakaaineet);
+            map.put("ohjeet",s.getOhje());
+            map.put("maarat", s.raakaAineMaara);
+            
             return new ModelAndView(map, "smoothiensivu");
         }, new ThymeleafTemplateEngine());
 

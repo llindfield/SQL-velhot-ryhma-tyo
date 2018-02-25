@@ -34,7 +34,7 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
         stmt.close();
         
         
-        PreparedStatement kysely = connection.prepareStatement("SELECT * FROM AnnosRaakaAine LEFT JOIN Raakaaine ON raakaaine.id = Annosraakaaine.raaka_aine_id WHERE Annosraakaaine.annos_id = ?");
+        PreparedStatement kysely = connection.prepareStatement("SELECT AnnosRaakaAine.id,raaka_aine_id,annos_id,jarjestys,maara,ohje,RaakaAine.nimi,Annos.nimi as smoothienimi FROM AnnosRaakaAine LEFT JOIN Raakaaine ON raakaaine.id = Annosraakaaine.raaka_aine_id LEFT JOIN Annos ON annos.id = AnnosRaakaAine.annos_id WHERE Annosraakaaine.annos_id = ?"); //hakee erottuvasti nimettyinä kaikki smoothien sisältämät AnnosRaakaAine rivit
         kysely.setObject(1, key);
         System.out.println("testi");
         ResultSet set = kysely.executeQuery();
@@ -47,6 +47,7 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
         }*/
         Smoothie s = new Smoothie(nimi);
         while(set.next()){
+        s.setNimi(set.getString("smoothienimi")); //kokoaa smoothien haun perusteella
         s.setOhje(set.getString("ohje"));
         s.setId(set.getInt("annos_id"));   
         s.raakaAineJarjestys.put(raakaainedao.findOne(set.getInt("raaka_aine_id")),set.getInt("jarjestys"));
