@@ -13,11 +13,15 @@ public class Database {
     }
 
     public Connection getConnection() throws SQLException {
+        String dbUrl = System.getenv("JDBC_DATABASE_URL");
+    if (dbUrl != null && dbUrl.length() > 0) {
+        return DriverManager.getConnection(dbUrl);
+    }
         return DriverManager.getConnection(databaseAddress);
     }
 
-    public void init() { //tämä varmaankin luo sen opiskelija-taulun joka kerta :)
-      List<String> lauseet = sqliteLauseet();
+    public void init() { 
+     List<String> lauseet = PostgreSQL();
 
         // "try with resources" sulkee resurssin automaattisesti lopuksi
         try (Connection conn = getConnection()) {
@@ -35,14 +39,18 @@ public class Database {
         }
     }
 
-    private List<String> sqliteLauseet() { //Mikä tämä metodi on?
+    private List<String> PostgreSQL() { //Mikä tämä metodi on?
         ArrayList<String> lista = new ArrayList<>();
 
         // tietokantataulujen luomiseen tarvittavat komennot suoritusjärjestyksessä
-        lista.add("CREATE TABLE Opiskelija (id integer PRIMARY KEY, nimi varchar(255));");
-        lista.add("INSERT INTO Opiskelija (nimi) VALUES ('Platon');");
-        lista.add("INSERT INTO Opiskelija (nimi) VALUES ('Aristoteles');");
-        lista.add("INSERT INTO Opiskelija (nimi) VALUES ('Homeros');");
+        lista.add("CREATE TABLE Annos (id SERIAL PRIMARY KEY, nimi varchar(200));");
+        lista.add("CREATE TABLE RaakaAine (id SERIAL PRIMARY KEY,nimi varchar(200));");
+        lista.add("CREATE TABLE AnnosRaakaAine(id SERIAL PRIMARY KEY, raaka_aine_id integer, annos_id integer,jarjestys integer, maara varchar (50), ohje varchar (800), FOREIGN KEY(raaka_aine_id) REFERENCES RaakaAine(id),FOREIGN KEY(annos_id) REFERENCES annos(id) );");
+        lista.add("INSERT INTO Annos (nimi) VALUES ('Juomienjuoma');");
+        lista.add("INSERT INTO RaakaAine (nimi) VALUES ('Banaani');");
+  
+    
+        
 
         return lista;
         
