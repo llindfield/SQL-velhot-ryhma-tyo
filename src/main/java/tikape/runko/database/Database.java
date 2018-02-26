@@ -45,7 +45,7 @@ public class Database {
         // tietokantataulujen luomiseen tarvittavat komennot suoritusjärjestyksessä
         lista.add("CREATE TABLE Annos (id SERIAL PRIMARY KEY, nimi varchar(200));");
         lista.add("CREATE TABLE Raakaaine (id SERIAL PRIMARY KEY,nimi varchar(200));");
-        lista.add("CREATE TABLE AnnosraakaAine(id SERIAL PRIMARY KEY, raaka_aine_id integer, annos_id integer,jarjestys integer, maara varchar (50), ohje varchar (800), FOREIGN KEY(raaka_aine_id) REFERENCES RaakaAine(id),FOREIGN KEY(annos_id) REFERENCES annos(id) );");
+        lista.add("CREATE TABLE Annosraakaaine(id SERIAL PRIMARY KEY, raaka_aine_id integer, annos_id integer,jarjestys integer, maara varchar (50), ohje varchar (800), FOREIGN KEY(raaka_aine_id) REFERENCES Raakaaine(id),FOREIGN KEY(annos_id) REFERENCES annos(id) );");
         lista.add("INSERT INTO Annos (nimi) VALUES ('Juomienjuoma');");
         lista.add("INSERT INTO RaakaAine (nimi) VALUES ('Banaani');");
   

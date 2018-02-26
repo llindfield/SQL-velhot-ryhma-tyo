@@ -130,7 +130,7 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
 
     @Override
     public Smoothie saveOrUpdate(Smoothie smoothie) throws SQLException { //jos smoothieta ei löydy saman nimistä se luodaan. jos löydetään saman niminen niin päivitetään
-        Connection connection = database.getConnection();
+     /*   Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Annos WHERE nimi=?");
         stmt.setString(1, smoothie.getNimi());
         ResultSet rs = stmt.executeQuery();
@@ -138,23 +138,24 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
             return save(smoothie);
         } else {
             return update(smoothie);
-        }
+        }*/
+     return null;
     }
 
-    public Smoothie save(Smoothie smoothie) throws SQLException { //lisaa smoothien nimen Annos tauluun ja palauttaa sen id:n kanssa
+    public void save(Smoothie smoothie) throws SQLException { //lisaa smoothien nimen Annos tauluun ja palauttaa sen id:n kanssa
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("INSERT INTO Annos (nimi) VALUES (?)");
         stmt.setString(1, smoothie.getNimi());
         stmt.executeUpdate();
         stmt.close();
 
-        PreparedStatement stmt2 = connection.prepareStatement("SELECT DISTINCT * FROM Annos WHERE nimi=?");
+       /*PreparedStatement stmt2 = connection.prepareStatement("SELECT DISTINCT * FROM Annos WHERE nimi=?");
         stmt2.setString(1, smoothie.getNimi());
         ResultSet rs2 = stmt2.executeQuery();
         int id = rs2.getInt("id");
         smoothie.setId(id);
         connection.close();
-        return smoothie;
+        return smoothie;*/
 
     }
 
