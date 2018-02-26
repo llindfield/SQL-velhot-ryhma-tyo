@@ -8,6 +8,7 @@ package tikape.runko.domain;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -20,23 +21,26 @@ public class Smoothie {
     private String ohje;
     
    // public HashMap<RaakaAine, Integer> raakaAineJarjestys = new HashMap(); //tallennetaan hashmappiin smoothien raaka-aineitten järjestys
-    public HashMap<RaakaAine, String> raakaAineMaara = new HashMap(); //tallennetaan hashmappiin smoothien raaka-aineitten määrät
-    public List<RaakaAine> raakaaineet = new ArrayList();
-    public List<String> ohjeet;
+    public HashMap<RaakaAine, String> raakaAineMaara; //tallennetaan hashmappiin smoothien raaka-aineitten määrät
+    public List<RaakaAine> raakaaineet;
+    public Map <RaakaAine,String> ohjeet;
     
     
     public Smoothie(){ //tarvitaan myös tyhjä konstruktori
-    
+        this.id = id;
+        this.nimi = nimi;
+        this.ohje = "ei vielä ohjetta";
+        this.ohjeet = new HashMap<>();
     
     };
     
-    public Smoothie(String nimi) { //Vika on näissä kahdessa konstruktorissa, 
+   /* public Smoothie(String nimi) { //Vika on näissä kahdessa konstruktorissa, 
         //lopulliset smoothiet tulis saada ton jälkimmäisen muotoiseksi, 
         //joten lisäsin tällekin paikan id:lle ja ohjelle, mutta setId() ei silti tee mitään?
         //luulen myös, että nämä hashmapit yms pitäs määritellä näissä konstruktoreissa
         this.id = 0;
         this.nimi = nimi;
-    }
+    }*/
 
     ;
     
@@ -44,7 +48,7 @@ public class Smoothie {
         this.id = id;
         this.nimi = nimi;
         this.ohje = "ei vielä ohjetta";
-        this.ohjeet = new ArrayList<>();
+        this.ohjeet = new HashMap<>();
 
     }
      
