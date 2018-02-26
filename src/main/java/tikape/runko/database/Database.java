@@ -17,7 +17,7 @@ public class Database {
     }
 
     public void init() { //tämä varmaankin luo sen opiskelija-taulun joka kerta :)
-        List<String> lauseet = sqliteLauseet();
+      List<String> lauseet = sqliteLauseet();
 
         // "try with resources" sulkee resurssin automaattisesti lopuksi
         try (Connection conn = getConnection()) {
