@@ -84,7 +84,7 @@ public class Main {
             System.out.println(s.getNimi());
             map.put("smoothiennimi", s.getNimi());
             map.put("raakaaineet", s.raakaaineet);
-            map.put("ohjeet", s.getOhje());
+            map.put("ohjeet", s.ohjeet);
             map.put("maarat", s.raakaAineMaara);
 
             return new ModelAndView(map, "smoothiensivu");

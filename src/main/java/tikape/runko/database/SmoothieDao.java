@@ -77,7 +77,7 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
         stmt.setObject(1, nimi);
         rs = stmt.executeQuery();
         while (rs.next()) {
-            s.setOhje(rs.getString("ohje"));
+            s.ohjeet.put(raakaainedao.findOne(rs.getInt("RaakaAine.id")),"ohje");
             s.setId(rs.getInt("Annos.id"));
 
    
