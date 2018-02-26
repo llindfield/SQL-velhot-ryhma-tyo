@@ -50,7 +50,6 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
             s.setNimi(set.getString("smoothienimi")); //kokoaa smoothien haun perusteella
             s.setOhje(set.getString("ohje"));
             s.setId(set.getInt("annos_id"));
-            s.raakaAineJarjestys.put(raakaainedao.findOne(set.getInt("raaka_aine_id")), set.getInt("jarjestys"));
             s.raakaAineMaara.put(raakaainedao.findOne(set.getInt("raaka_aine_id")), set.getString("maara"));
             s.raakaaineet.add(raakaainedao.findOne(set.getInt("raaka_aine_id")));
         }
@@ -81,7 +80,7 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
             s.setOhje(rs.getString("ohje"));
             s.setId(rs.getInt("Annos.id"));
 
-            s.raakaAineJarjestys.put(raakaainedao.findOne(rs.getInt("RaakaAine.id")), rs.getInt("jarjestys"));
+   
             s.raakaAineMaara.put(raakaainedao.findOne(rs.getInt("RaakaAine.id")), rs.getString("maara"));
             s.raakaaineet.add(raakaainedao.findOne(rs.getInt("RaakaAine.id")));
         }
@@ -159,7 +158,7 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
 
     }
 
-    public void lisaaRaakaAine(Smoothie s, RaakaAine r) throws SQLException {
+    /*public void lisaaRaakaAine(Smoothie s, RaakaAine r) throws SQLException {
         Connection c = database.getConnection();
         //etsitään raaka-aineen ja smoothien id
         int raakaId = r.getId();
@@ -171,7 +170,7 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
         String ohje = s.getOhje();
 
         //yritetääs lisäystä
-        PreparedStatement stmt2 = c.prepareStatement("INSERT INTO AnnosRaakaAine (raakaaine_id, annos_id, jarjestys, maara, ohje) VALUES (?, ?, ?, ?, ?");
+        PreparedStatement stmt2 = c.prepareStatement("INSERT INTO AnnosRaakaAine (raakaaine_id, annos_id,, maara, ohje) VALUES (?, ?, ?, ?, ?");
         stmt2.setInt(1, raakaId);
         stmt2.setInt(2, annosId);
         stmt2.setInt(3, jarjestys);
@@ -180,16 +179,15 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
         stmt2.executeUpdate();
 
         c.close();
-    }
+    }*/
 
-    public void lisaaRaakaAine(int raakaaine_id, int annos_id, int jarjestys, String maara, String ohje) throws SQLException {
+    public void lisaaRaakaAine(int raakaaine_id, int annos_id, String maara, String ohje) throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement stmt2 = connection.prepareStatement("INSERT INTO AnnosRaakaAine (raaka_aine_id, annos_id, jarjestys, maara, ohje) VALUES (?, ?, ?, ?, ?)");
+        PreparedStatement stmt2 = connection.prepareStatement("INSERT INTO AnnosRaakaAine (raaka_aine_id, annos_id, maara, ohje) VALUES (?, ?, ?, ?)");
         stmt2.setInt(1, raakaaine_id);
         stmt2.setInt(2, annos_id);
-        stmt2.setInt(3, jarjestys);
-        stmt2.setString(4, maara);
-        stmt2.setString(5, ohje);
+        stmt2.setString(3, maara);
+        stmt2.setString(4, ohje);
         stmt2.executeUpdate();
 
         connection.close();

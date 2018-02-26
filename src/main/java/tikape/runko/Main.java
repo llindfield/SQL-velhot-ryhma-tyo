@@ -78,7 +78,7 @@ public class Main {
             Smoothie s = new Smoothie();
             s = smoothiedao.findOne(Integer.parseInt(req.params(":id")));
             System.out.println(s.getNimi());
-            map.put("smoothie", s);
+            map.put("smoothiennimi", s.getNimi());
             map.put("raakaaineet", s.raakaaineet);
             map.put("ohjeet", s.getOhje());
             map.put("maarat", s.raakaAineMaara);
@@ -109,29 +109,17 @@ public class Main {
         });
 
         post("/smoothie/ainesosanlisays", (req, res) -> { //kuunnellaan lomaketta ja lisätään sen pohjalta ainesosat. löytää id:t!
-            /*String smoothiennimi = req.params("smoothie.nimi");
-        Smoothie smoothie = smoothiedao.findOne(smoothiennimi); //hakee 
-        RaakaAine raakaaine =  new RaakaAine (Integer.parseInt(req.params("raakaAine.id")),req.params("raakaAine.nimi"));
-        Integer jarjestys = Integer.parseInt(req.params("jarjestys"));
-        String ohje = req.params("ohje");
-        String maara = req.params("maara");
-        
-        smoothie.raakaAineJarjestys.put(raakaaine, jarjestys);
-        smoothie.raakaAineMaara.put(raakaaine, maara);
-        smoothie.setOhje(ohje);
-        smoothiedao.lisaaRaakaAine(smoothie, raakaaine);
-        res.redirect("/smoothiet");*/
             int raakaaineid = Integer.parseInt(req.queryParams("raakaAine"));
             System.out.println(raakaaineid);
             int smoothieid = Integer.parseInt(req.queryParams("smoothie"));
             System.out.println(smoothieid);
-            int jarjestys = Integer.parseInt(req.queryParams("jarjestys"));
-            System.out.println(jarjestys);
+         //   int jarjestys = Integer.parseInt(req.queryParams("jarjestys"));
+         // System.out.println(jarjestys);
             String maara = req.queryParams("maara");
             System.out.println(maara);
             String ohje = req.queryParams("ohje");
             System.out.println(maara);
-            smoothiedao.lisaaRaakaAine(raakaaineid,smoothieid,jarjestys, maara, ohje);
+            smoothiedao.lisaaRaakaAine(raakaaineid,smoothieid, maara, ohje);
             
             res.redirect("/smoothiet");
             return "";

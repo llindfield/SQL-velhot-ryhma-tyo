@@ -7,38 +7,46 @@
     </head>
 
     <body>
-        <h1>Smoothieitten raaka-aineet</h1>
-       
-        
-            <h2 th:text="${smoothie.nimi}">Smoothiennimi</h2>
-            <p th:text="${smoothie.id}">2</p>
-            
-            
-            <ul>
+        <h1>Smoothien raaka-aineet</h1>
+
+
+        <h2 th:text="${smoothie}">Smoothiennimi</h2>
+
+
+
+        <h3>Raakaaineet</h3>
+        <ul>
+
             <li th:each="raakaaine:${raakaaineet}">
                 <span th:text="${raakaaine.nimi}">1</span>
-                </li>
-              <!--  <li th:each="maara:${maarat}">
-                <span th:text="${maara.raakaaine}">maara</span> <!--maarana hashmapin läpikäynnin yritystä. ei toimi.>
-                </li>
-                <li>
-                <span th:text="${ohjeet}">ohje</span>
-                </li-->
-                
-            </ul>   
-            <a href="~/smoothiet/">Paluu smoothiet sivulle</a>
+            </li>
+
+        </ul> 
         
         
         
-          
-                
-                
-            <!--    
-                <span th:text="${smoothie.ohje}">smoothien ohje</span>
-                
-                <span th:text="${smoothie.jarjestys}">smoothien ohje</span>
-                
-                <span th:text="${smoothie.maara}">smoothien ohje</span> -->   
+        
+        <h3>Ohjeet</h3>
+        <ol>
+            <li><span th:text="${ohjeet}"> </span></li>
+        </ol>    
+
+
+
+
+        <a href="/smoothiet">Paluu smoothiet sivulle</a>
+
+
+
+
+
+
+        <!--    
+            <span th:text="${smoothie.ohje}">smoothien ohje</span>
+            
+            <span th:text="${smoothie.jarjestys}">smoothien ohje</span>
+            
+            <span th:text="${smoothie.maara}">smoothien ohje</span> -->   
 
     </body>
 </html>

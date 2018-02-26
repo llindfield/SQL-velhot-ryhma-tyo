@@ -19,7 +19,7 @@ public class Smoothie {
     private String nimi;
     private String ohje;
     
-    public HashMap<RaakaAine, Integer> raakaAineJarjestys = new HashMap(); //tallennetaan hashmappiin smoothien raaka-aineitten järjestys
+   // public HashMap<RaakaAine, Integer> raakaAineJarjestys = new HashMap(); //tallennetaan hashmappiin smoothien raaka-aineitten järjestys
     public HashMap<RaakaAine, String> raakaAineMaara = new HashMap(); //tallennetaan hashmappiin smoothien raaka-aineitten määrät
     public List<RaakaAine> raakaaineet = new ArrayList();
     public List<String> ohjeet;
