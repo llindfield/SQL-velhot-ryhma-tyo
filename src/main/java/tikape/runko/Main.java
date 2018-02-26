@@ -16,7 +16,7 @@ import tikape.runko.domain.Smoothie;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        
+
         // Saatoin löytää ongelman.. kun käynnistää palvelimen, ja availee 
         //smoothieita niin se näyttää smoothie-olioita, joilla on pelkkä nimi!
         Database database = new Database("jdbc:sqlite:smoothiet.db");
@@ -72,26 +72,25 @@ public class Main {
             map.put("raakaaineet", raakaainedao.findAll());
             return new ModelAndView(map, "smoothiet");
         }, new ThymeleafTemplateEngine());
-        
-         get("/smoothiensivu/:id", (req, res) -> { 
-            HashMap map = new HashMap<>();           
+
+        get("/smoothiensivu/:id", (req, res) -> {
+            HashMap map = new HashMap<>();
             Smoothie s = new Smoothie();
             s = smoothiedao.findOne(Integer.parseInt(req.params(":id")));
             System.out.println(s.getNimi());
-            map.put("smoothie",s);
+            map.put("smoothie", s);
             map.put("raakaaineet", s.raakaaineet);
-            map.put("ohjeet",s.getOhje());
+            map.put("ohjeet", s.getOhje());
             map.put("maarat", s.raakaAineMaara);
-            
+
             return new ModelAndView(map, "smoothiensivu");
         }, new ThymeleafTemplateEngine());
-
 
         post("/lisaasmoothie", (req, res) -> {
             String nimi = req.queryParams("smoothiennimi");
             Smoothie s = new Smoothie(nimi);
             smoothiedao.save(s);
-            
+
             res.redirect("/smoothiet");
             return "";
         });
@@ -109,8 +108,8 @@ public class Main {
             return "";
         });
 
-        post("/smoothiet/aineosanlisays", (req,res) -> {
-        String smoothiennimi = req.params("smoothie.nimi");
+        post("/smoothie/ainesosanlisays", (req, res) -> { //kuunnellaan lomaketta ja lisätään sen pohjalta ainesosat. löytää id:t!
+            /*String smoothiennimi = req.params("smoothie.nimi");
         Smoothie smoothie = smoothiedao.findOne(smoothiennimi); //hakee 
         RaakaAine raakaaine =  new RaakaAine (Integer.parseInt(req.params("raakaAine.id")),req.params("raakaAine.nimi"));
         Integer jarjestys = Integer.parseInt(req.params("jarjestys"));
@@ -121,22 +120,22 @@ public class Main {
         smoothie.raakaAineMaara.put(raakaaine, maara);
         smoothie.setOhje(ohje);
         smoothiedao.lisaaRaakaAine(smoothie, raakaaine);
-        res.redirect("/smoothiet");
-        return""; 
-    });
-        
-       
+        res.redirect("/smoothiet");*/
+            int raakaaineid = Integer.parseInt(req.queryParams("raakaAine"));
+            System.out.println(raakaaineid);
+            int smoothieid = Integer.parseInt(req.queryParams("smoothie"));
+            System.out.println(smoothieid);
+            int jarjestys = Integer.parseInt(req.queryParams("jarjestys"));
+            System.out.println(jarjestys);
+            String maara = req.queryParams("maara");
+            System.out.println(maara);
+            String ohje = req.queryParams("ohje");
+            System.out.println(maara);
+            smoothiedao.lisaaRaakaAine(raakaaineid,smoothieid,jarjestys, maara, ohje);
             
-            
-
-     
-            
-        
-      
-    
-       
-        
-        
+            res.redirect("/smoothiet");
+            return "";
+        });
 
     }
 

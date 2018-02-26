@@ -1,9 +1,9 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-
     <head>
         <title>Lisää ja poista smoothieita</title>
+        <meta charset="utf-8" />
 
 
     </head>
@@ -23,39 +23,43 @@
             <input type="text" name="smoothiennimi"/>
             <input type="submit" value="Lisää uusi smoothie"/>
         </form>
-        
-        <form method="POST" action="@{~/smoothiet/ainesosanlisays/">
-            Smoothien nimi:<br/>
-            <select name="smoothie">
+
+        <form method="POST" action="/smoothie/ainesosanlisays">
+            Valitse mihin smoothieen lisäät raakaaineen:<br/>
+            <select  name="smoothie">
                 <option th:each="smoothie: ${smoothiet}"
-                        th:value="${smoothie.nimi}"
+                        th:value="${smoothie.id}"
+                        th:label="${smoothie.nimi}"
                         th:text="${smoothie.nimi}">
+                        
 
                 </option>
-                
+
             </select>
-            
-            
+
+
             <br/>
             Mikä raaka-aine lisätään?<br/>
             <select name="raakaAine">
                 <option th:each="raakaaine: ${raakaaineet}"
-                        th:value="${raakaaine.nimi}"
+                        th:value="${raakaaine.id}"
+                        th:label="${raakaaine.nimi}"
                         th:text="${raakaaine.nimi}">
-
                 </option>
-            </select><br/>
+            </select>
+            <br/>
+
             <div>
-            Järjestys<br/>
-            <input type="text" name="jarjestys"/><br/>
-            Määrä<br/>
-            <input type="text" name="määrä"/><br/>
-            Ohje<br/>
-            <input type="text" name="ohje"/><br/>
-            
-            <input type="submit" value="Lisää"/>
+                Järjestys<br/>
+                <input type="text" name="jarjestys"/><br/>
+                Määrä<br/>
+                <input type="text" name="maara"/><br/>
+                Ohje<br/>
+                <input type="text" name="ohje"/><br/>
+
+                <input type="submit" value="Lisää"/>
             </div>
-            
+
         </form>
 
 
