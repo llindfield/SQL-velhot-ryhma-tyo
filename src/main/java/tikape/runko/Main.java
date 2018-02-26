@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import spark.ModelAndView;
+import spark.Spark;
 import static spark.Spark.*;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import tikape.runko.database.Database;
@@ -16,6 +17,9 @@ import tikape.runko.domain.Smoothie;
 public class Main {
 
     public static void main(String[] args) throws Exception {
+        if (System.getenv("PORT") != null) {
+            Spark.port(Integer.valueOf(System.getenv("PORT")));
+        }
 
         // Saatoin löytää ongelman.. kun käynnistää palvelimen, ja availee 
         //smoothieita niin se näyttää smoothie-olioita, joilla on pelkkä nimi!
@@ -113,14 +117,14 @@ public class Main {
             System.out.println(raakaaineid);
             int smoothieid = Integer.parseInt(req.queryParams("smoothie"));
             System.out.println(smoothieid);
-         //   int jarjestys = Integer.parseInt(req.queryParams("jarjestys"));
-         // System.out.println(jarjestys);
+            //   int jarjestys = Integer.parseInt(req.queryParams("jarjestys"));
+            // System.out.println(jarjestys);
             String maara = req.queryParams("maara");
             System.out.println(maara);
             String ohje = req.queryParams("ohje");
             System.out.println(maara);
-            smoothiedao.lisaaRaakaAine(raakaaineid,smoothieid, maara, ohje);
-            
+            smoothiedao.lisaaRaakaAine(raakaaineid, smoothieid, maara, ohje);
+
             res.redirect("/smoothiet");
             return "";
         });
