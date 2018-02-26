@@ -34,13 +34,13 @@ public class Smoothie {
     
     };
     
-   /* public Smoothie(String nimi) { //Vika on näissä kahdessa konstruktorissa, 
+   public Smoothie(String nimi) { //Vika on näissä kahdessa konstruktorissa, 
         //lopulliset smoothiet tulis saada ton jälkimmäisen muotoiseksi, 
         //joten lisäsin tällekin paikan id:lle ja ohjelle, mutta setId() ei silti tee mitään?
         //luulen myös, että nämä hashmapit yms pitäs määritellä näissä konstruktoreissa
         this.id = 0;
         this.nimi = nimi;
-    }*/
+    }
 
     ;
     
