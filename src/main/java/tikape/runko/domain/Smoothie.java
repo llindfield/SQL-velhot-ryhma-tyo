@@ -26,20 +26,23 @@ public class Smoothie {
     public Map <RaakaAine,String> ohjeet;
     
     
-    public Smoothie(){ //tarvitaan myös tyhjä konstruktori
+    public Smoothie(){ 
         this.id = id;
         this.nimi = nimi;
         this.ohje = "ei vielä ohjetta";
         this.ohjeet = new HashMap<>();
+        this.raakaAineMaara = new HashMap<>();
+        this.raakaaineet = new ArrayList<>();
     
     };
     
-   public Smoothie(String nimi) { //Vika on näissä kahdessa konstruktorissa, 
-        //lopulliset smoothiet tulis saada ton jälkimmäisen muotoiseksi, 
-        //joten lisäsin tällekin paikan id:lle ja ohjelle, mutta setId() ei silti tee mitään?
-        //luulen myös, että nämä hashmapit yms pitäs määritellä näissä konstruktoreissa
-        this.id = 0;
+   public Smoothie(String nimi) { 
+        this.id = id;
         this.nimi = nimi;
+        this.ohje = "ei vielä ohjetta";
+        this.ohjeet = new HashMap<>();
+        this.raakaAineMaara = new HashMap<>();
+        this.raakaaineet = new ArrayList<>();
     }
 
     ;
@@ -49,6 +52,8 @@ public class Smoothie {
         this.nimi = nimi;
         this.ohje = "ei vielä ohjetta";
         this.ohjeet = new HashMap<>();
+        this.raakaAineMaara = new HashMap<>();
+        this.raakaaineet = new ArrayList<>();
 
     }
      

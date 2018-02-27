@@ -34,22 +34,27 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
         String nimi = rs.getString("nimi");
         stmt.close();
 
-        PreparedStatement kysely = connection.prepareStatement("SELECT AnnosRaakaAine.id,raaka_aine_id,annos_id,jarjestys,maara,ohje,RaakaAine.nimi,Annos.nimi as smoothienimi FROM AnnosRaakaAine LEFT JOIN Raakaaine ON raakaaine.id = Annosraakaaine.raaka_aine_id LEFT JOIN Annos ON annos.id = AnnosRaakaAine.annos_id WHERE Annosraakaaine.annos_id = ?"); //hakee erottuvasti nimettyinä kaikki smoothien sisältämät AnnosRaakaAine rivit
+        PreparedStatement kysely = connection.prepareStatement("SELECT raaka_aine_id,maara,ohje,annos.id as smoothieid FROM AnnosRaakaAine,Annos,Raakaaine  WHERE Annos.id = Annosraakaaine.annos_id AND raakaaine.id = annosraakaaine.raaka_aine_id and annos.id = ?;"); //hakee erottuvasti nimettyinä kaikki smoothien sisältämät AnnosRaakaAine rivit
         kysely.setObject(1, key);
-        System.out.println("testi");
+        //System.out.println("testi");
         ResultSet set = kysely.executeQuery();
-        /*Boolean onkomitaan = set.next();
-        
+      /*  Boolean onkomitaan = set.next();
+
         if (!onkomitaan) {   //jos smoothie
             Smoothie s = new Smoothie(nimi);
             s.setId(key);
             return s;
         }*/
+       
         Smoothie s = new Smoothie(nimi);
+        s.setId(key);
+        
         while (set.next()) {
-            s.setNimi(set.getString("smoothienimi")); //kokoaa smoothien haun perusteella
+            System.out.println("raakaaineid " +set.getInt("raaka_aine_id"));
+            System.out.println(raakaainedao.findOne(set.getInt("raaka_aine_id")).getNimi());
+            //s.setNimi(set.getString("smoothienimi")); //kokoaa smoothien haun perusteella
             s.setOhje(set.getString("ohje"));
-            s.setId(set.getInt("annos_id"));
+            
             s.raakaAineMaara.put(raakaainedao.findOne(set.getInt("raaka_aine_id")), set.getString("maara"));
             s.raakaaineet.add(raakaainedao.findOne(set.getInt("raaka_aine_id")));
         }
@@ -77,10 +82,8 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
         stmt.setObject(1, nimi);
         rs = stmt.executeQuery();
         while (rs.next()) {
-            s.ohjeet.put(raakaainedao.findOne(rs.getInt("RaakaAine.id")),"ohje");
+            s.ohjeet.put(raakaainedao.findOne(rs.getInt("RaakaAine.id")), "ohje");
             s.setId(rs.getInt("Annos.id"));
-
-   
             s.raakaAineMaara.put(raakaainedao.findOne(rs.getInt("RaakaAine.id")), rs.getString("maara"));
             s.raakaaineet.add(raakaainedao.findOne(rs.getInt("RaakaAine.id")));
         }
@@ -130,7 +133,7 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
 
     @Override
     public Smoothie saveOrUpdate(Smoothie smoothie) throws SQLException { //jos smoothieta ei löydy saman nimistä se luodaan. jos löydetään saman niminen niin päivitetään
-     /*   Connection connection = database.getConnection();
+        /*   Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Annos WHERE nimi=?");
         stmt.setString(1, smoothie.getNimi());
         ResultSet rs = stmt.executeQuery();
@@ -139,7 +142,7 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
         } else {
             return update(smoothie);
         }*/
-     return null;
+        return null;
     }
 
     public void save(Smoothie smoothie) throws SQLException { //lisaa smoothien nimen Annos tauluun ja palauttaa sen id:n kanssa
@@ -149,14 +152,13 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
         stmt.executeUpdate();
         stmt.close();
 
-       /*PreparedStatement stmt2 = connection.prepareStatement("SELECT DISTINCT * FROM Annos WHERE nimi=?");
+        /*PreparedStatement stmt2 = connection.prepareStatement("SELECT DISTINCT * FROM Annos WHERE nimi=?");
         stmt2.setString(1, smoothie.getNimi());
         ResultSet rs2 = stmt2.executeQuery();
         int id = rs2.getInt("id");
         smoothie.setId(id);
         connection.close();
         return smoothie;*/
-
     }
 
     /*public void lisaaRaakaAine(Smoothie s, RaakaAine r) throws SQLException {
@@ -181,7 +183,6 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
 
         c.close();
     }*/
-
     public void lisaaRaakaAine(int raakaaine_id, int annos_id, String maara, String ohje) throws SQLException {
         Connection connection = database.getConnection();
         PreparedStatement stmt2 = connection.prepareStatement("INSERT INTO AnnosRaakaAine (raaka_aine_id, annos_id, maara, ohje) VALUES (?, ?, ?, ?)");
