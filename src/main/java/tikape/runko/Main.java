@@ -121,9 +121,9 @@ public class Main {
             // System.out.println(jarjestys);
             String maara = req.queryParams("maara");
             System.out.println(maara);
-            String ohje = req.queryParams("ohje");
-            System.out.println(maara);
-            smoothiedao.lisaaRaakaAine(raakaaineid, smoothieid, maara, ohje);
+            int monesko = Integer.parseInt(req.queryParams("monesko"));
+            System.out.println(monesko);
+            smoothiedao.lisaaRaakaAine(raakaaineid, smoothieid, maara, monesko);
 
             res.redirect("/smoothiet");
             return "";

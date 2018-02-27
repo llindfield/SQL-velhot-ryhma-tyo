@@ -34,7 +34,7 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
         String nimi = rs.getString("nimi");
         stmt.close();
 
-        PreparedStatement kysely = connection.prepareStatement("SELECT raaka_aine_id,maara,ohje,annos.id as smoothieid FROM AnnosRaakaAine,Annos,Raakaaine  WHERE Annos.id = Annosraakaaine.annos_id AND raakaaine.id = annosraakaaine.raaka_aine_id and annos.id = ?;"); //hakee erottuvasti nimettyinä kaikki smoothien sisältämät AnnosRaakaAine rivit
+        PreparedStatement kysely = connection.prepareStatement("SELECT raaka_aine_id,maara,jarjestys,annos.id as smoothieid FROM AnnosRaakaAine,Annos,Raakaaine  WHERE Annos.id = Annosraakaaine.annos_id AND raakaaine.id = annosraakaaine.raaka_aine_id and annos.id = ?;"); //hakee erottuvasti nimettyinä kaikki smoothien sisältämät AnnosRaakaAine rivit
         kysely.setObject(1, key);
         //System.out.println("testi");
         ResultSet set = kysely.executeQuery();
@@ -54,7 +54,7 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
             System.out.println(raakaainedao.findOne(set.getInt("raaka_aine_id")).getNimi());
             //s.setNimi(set.getString("smoothienimi")); //kokoaa smoothien haun perusteella
         
-            s.raakaaineet.add(raakaainedao.findOne(set.getInt("raaka_aine_id")).getNimi()+", määrä: " +set.getString("maara") );
+            s.raakaaineet.add(raakaainedao.findOne(set.getInt("raaka_aine_id")).getNimi()+", kuinka paljon raaka-ainetta lisätään: " +set.getString("maara")+" monentena lisätään smoothieen " +set.getString("jarjestys") );
             //s.raakaaineet.add(set.getString("maara"));
             
         }
@@ -183,13 +183,13 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
 
         c.close();
     }*/
-    public void lisaaRaakaAine(int raakaaine_id, int annos_id, String maara, String ohje) throws SQLException {
+    public void lisaaRaakaAine(int raakaaine_id, int annos_id, String maara, int monesko) throws SQLException {
         Connection connection = database.getConnection();
         PreparedStatement stmt2 = connection.prepareStatement("INSERT INTO AnnosRaakaAine (raaka_aine_id, annos_id, maara, ohje) VALUES (?, ?, ?, ?)");
         stmt2.setInt(1, raakaaine_id);
         stmt2.setInt(2, annos_id);
         stmt2.setString(3, maara);
-        stmt2.setString(4, ohje);
+        stmt2.setInt(4, monesko);
         stmt2.executeUpdate();
 
         connection.close();
