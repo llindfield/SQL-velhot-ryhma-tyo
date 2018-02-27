@@ -21,17 +21,17 @@ public class Smoothie {
     private String ohje;
     
    // public HashMap<RaakaAine, Integer> raakaAineJarjestys = new HashMap(); //tallennetaan hashmappiin smoothien raaka-aineitten järjestys
-    public HashMap<RaakaAine, String> raakaAineMaara; //tallennetaan hashmappiin smoothien raaka-aineitten määrät
-    public List<RaakaAine> raakaaineet;
+    public List<String> raakaAineMaara; //tallennetaan hashmappiin smoothien raaka-aineitten määrät
+    public List<String> raakaaineet;
     public Map <RaakaAine,String> ohjeet;
     
     
     public Smoothie(){ 
         this.id = id;
         this.nimi = nimi;
-        this.ohje = "ei vielä ohjetta";
+        this.ohje = "kaikki vaan blenderiin";
         this.ohjeet = new HashMap<>();
-        this.raakaAineMaara = new HashMap<>();
+        this.raakaAineMaara = new ArrayList<>();
         this.raakaaineet = new ArrayList<>();
     
     };
@@ -39,9 +39,9 @@ public class Smoothie {
    public Smoothie(String nimi) { 
         this.id = id;
         this.nimi = nimi;
-        this.ohje = "ei vielä ohjetta";
+        this.ohje = "kaikki vaan blenderiin";
         this.ohjeet = new HashMap<>();
-        this.raakaAineMaara = new HashMap<>();
+        this.raakaAineMaara = new ArrayList<>();
         this.raakaaineet = new ArrayList<>();
     }
 
@@ -50,9 +50,9 @@ public class Smoothie {
      public Smoothie(Integer id, String nimi) {
         this.id = id;
         this.nimi = nimi;
-        this.ohje = "ei vielä ohjetta";
+        this.ohje = "kaikki vaan blenderiin";
         this.ohjeet = new HashMap<>();
-        this.raakaAineMaara = new HashMap<>();
+        this.raakaAineMaara = new ArrayList<>();
         this.raakaaineet = new ArrayList<>();
 
     }

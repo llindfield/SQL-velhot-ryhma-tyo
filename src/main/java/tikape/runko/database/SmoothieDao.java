@@ -53,10 +53,10 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
             System.out.println("raakaaineid " +set.getInt("raaka_aine_id"));
             System.out.println(raakaainedao.findOne(set.getInt("raaka_aine_id")).getNimi());
             //s.setNimi(set.getString("smoothienimi")); //kokoaa smoothien haun perusteella
-            s.setOhje(set.getString("ohje"));
+        
+            s.raakaaineet.add(raakaainedao.findOne(set.getInt("raaka_aine_id")).getNimi()+", määrä: " +set.getString("maara") );
+            //s.raakaaineet.add(set.getString("maara"));
             
-            s.raakaAineMaara.put(raakaainedao.findOne(set.getInt("raaka_aine_id")), set.getString("maara"));
-            s.raakaaineet.add(raakaainedao.findOne(set.getInt("raaka_aine_id")));
         }
 
         stmt.close();
@@ -66,7 +66,7 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
 
     }
 
-    public Smoothie findOne(String nimi) throws SQLException { //löytää smoothien tiedot nimen perusteella.
+    /*public Smoothie findOne(String nimi) throws SQLException { //löytää smoothien tiedot nimen perusteella.
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Annos WHERE nimi = ?");
         stmt.setObject(1, nimi);
@@ -92,7 +92,7 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
         connection.close();
 
         return s;
-    }
+    }*/
 
     @Override
     public List<Smoothie> findAll() throws SQLException {
