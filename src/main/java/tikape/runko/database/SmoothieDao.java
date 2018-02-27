@@ -53,8 +53,10 @@ public class SmoothieDao implements Dao<Smoothie, Integer> {
             System.out.println("raakaaineid " +set.getInt("raaka_aine_id"));
             System.out.println(raakaainedao.findOne(set.getInt("raaka_aine_id")).getNimi());
             //s.setNimi(set.getString("smoothienimi")); //kokoaa smoothien haun perusteella
-        
-            s.raakaaineet.add(raakaainedao.findOne(set.getInt("raaka_aine_id")).getNimi()+", kuinka paljon raaka-ainetta lisätään: " +set.getString("maara")+" monentena lisätään smoothieen " +set.getString("jarjestys") );
+            String jarjestys = set.getString("jarjestys");
+            if (jarjestys == null) jarjestys="";
+            else jarjestys = " Raaka-aine lisätään smoothieen järjestysnumerolla " +set.getString("jarjestys");
+            s.raakaaineet.add(raakaainedao.findOne(set.getInt("raaka_aine_id")).getNimi()+", kuinka paljon raaka-ainetta lisätään: " +set.getString("maara")+jarjestys );
             //s.raakaaineet.add(set.getString("maara"));
             
         }
